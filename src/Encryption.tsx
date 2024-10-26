@@ -9,20 +9,29 @@ const Encryption: React.FC = () => {
   const [showKey, setShowKey] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
+  const toBase64 = (text: string): string => btoa(text);
+
+  const fromBase64 = (base64: string): string => atob(base64);
+
   const encrypt = (text: string, key: string): string => {
-    // Простий алгоритм E2 (псевдокод)
     let encrypted = "";
     for (let i = 0; i < text.length; i++) {
-      // Перетворення символу тексту з використанням ключа
       encrypted += String.fromCharCode(
         text.charCodeAt(i) ^ key.charCodeAt(i % key.length)
       );
     }
-    return encrypted;
+    return toBase64(encrypted);
   };
 
   const decrypt = (ciphertext: string, key: string): string => {
-    return encrypt(ciphertext, key); // Використовуємо той самий метод
+    const decoded = fromBase64(ciphertext);
+    let decrypted = "";
+    for (let i = 0; i < decoded.length; i++) {
+      decrypted += String.fromCharCode(
+        decoded.charCodeAt(i) ^ key.charCodeAt(i % key.length)
+      );
+    }
+    return decrypted;
   };
 
   const handleEncrypt = () => {
