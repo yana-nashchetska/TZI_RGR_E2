@@ -49,7 +49,7 @@ const Encryption: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.wrapper}>
+      <div className={styles.gitwrapper}>
         <h1>Система шифрування E2</h1>
         <input
           type="text"
