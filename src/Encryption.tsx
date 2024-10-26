@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import CryptoJS from "crypto-js";
 import styles from "./Encryption.module.css";
 
 const Encryption: React.FC = () => {
@@ -11,12 +10,19 @@ const Encryption: React.FC = () => {
   const [error, setError] = useState<string>("");
 
   const encrypt = (text: string, key: string): string => {
-    return CryptoJS.AES.encrypt(text, key).toString();
+    // Простий алгоритм E2 (псевдокод)
+    let encrypted = "";
+    for (let i = 0; i < text.length; i++) {
+      // Перетворення символу тексту з використанням ключа
+      encrypted += String.fromCharCode(
+        text.charCodeAt(i) ^ key.charCodeAt(i % key.length)
+      );
+    }
+    return encrypted;
   };
 
   const decrypt = (ciphertext: string, key: string): string => {
-    const bytes = CryptoJS.AES.decrypt(ciphertext, key);
-    return bytes.toString(CryptoJS.enc.Utf8);
+    return encrypt(ciphertext, key); // Використовуємо той самий метод
   };
 
   const handleEncrypt = () => {
